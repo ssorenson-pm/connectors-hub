@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smartling Connectors Hub</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div id="app">
+
+  <!-- ── Sidebar Navigation ──────────────────────────────── -->
+  <nav id="sidebar">
+    <div class="sidebar-logo">
+      <img src="https://www.smartling.com/hubfs/SmartlingWebsite-WCS/Frame%20(17).svg" alt="Smartling" class="logo-wordmark" />
+      <div class="logo-name">Connectors Hub</div>
+    </div>
+
+    <!-- Group: Updates & Status -->
+    <div class="nav-group">
+      <div class="nav-group-label">Updates & Status</div>
+      <div class="nav-item active" data-section="whats-new">
+        <span class="nav-icon">🆕</span> What's New
+      </div>
+      <div class="nav-item" data-section="wip">
+        <span class="nav-icon">🔨</span> Work in Progress
+      </div>
+      <div class="nav-item" data-section="roadmap">
+        <span class="nav-icon">🗺️</span> Roadmap
+      </div>
+    </div>
+
+    <!-- Group: Connectors -->
+    <div class="nav-group">
+      <div class="nav-group-label">Connectors</div>
+      <div class="nav-item" data-section="catalog">
+        <span class="nav-icon">📦</span> Connector Catalog
+      </div>
+      <div class="nav-item" data-section="health">
+        <span class="nav-icon">💚</span> Health Status
+      </div>
+      <div class="nav-item" data-section="issues">
+        <span class="nav-icon">🐛</span> Known Issues
+        <span class="nav-badge" id="issues-badge"></span>
+      </div>
+      <div class="nav-item" data-section="matrix">
+        <span class="nav-icon">🔢</span> Comparison Matrix
+      </div>
+    </div>
+
+    <!-- Group: Resources -->
+    <div class="nav-group">
+      <div class="nav-group-label">Resources</div>
+      <div class="nav-item" data-section="requests">
+        <span class="nav-icon">📝</span> Request Tracker
+      </div>
+      <div class="nav-item" data-section="calendar">
+        <span class="nav-icon">📅</span> Calendar
+      </div>
+      <div class="nav-item" data-section="training">
+        <span class="nav-icon">🎓</span> Training Hub
+      </div>
+      <div class="nav-item" data-section="research">
+        <span class="nav-icon">🔬</span> Research
+      </div>
+    </div>
+
+  </nav>
+
+  <!-- ── Main Content ────────────────────────────────────── -->
+  <main id="main">
+
+    <!-- ── SECTION: What's New ─────────────────────────── -->
+    <div class="section active" id="section-whats-new">
+      <div class="page-header">
+        <h1>What's New</h1>
+        <p>Recent connector releases, updates, and changes — newest first.</p>
+      </div>
+      <div class="page-body">
+        <div id="releases-feed" class="release-feed"></div>
+      </div>
+    </div>
+
+    <!-- ── SECTION: Work in Progress ──────────────────── -->
+    <div class="section" id="section-wip">
+      <div class="page-header">
+        <h1>Work in Progress</h1>
+        <p>Connectors currently in active development. Stages: Discovery → Design → Build → QA → Launching.</p>
+      </div>
+      <div class="page-body">
+        <div id="kanban-board" class="kanban-board"></div>
+      </div>
+    </div>
+
+    <!-- ── SECTION: Roadmap ────────────────────────────── -->
+    <div class="section" id="section-roadmap">
+      <div class="page-header">
+        <h1>Roadmap</h1>
+        <p>Planned connector work grouped by time horizon. These are signals of direction, not commitments.</p>
+      </div>
+      <div class="page-body">
+        <div id="roadmap-grid" class="roadmap-grid"></div>
+      </div>
+    </div>
+
+    <!-- ── SECTION: Connector Catalog ─────────────────── -->
+    <div class="section" id="section-catalog">
+      <div class="page-header">
+        <h1>Connector Catalog</h1>
+        <p>Every connector Smartling supports — searchable by name, category, or status.</p>
+      </div>
+      <div class="page-body">
+        <div class="catalog-controls">
+          <input type="text" id="catalog-search" class="search-input" placeholder="🔍  Search connectors..." />
+          <select id="catalog-category" class="filter-select">
+            <option value="">All Categories</option>
+            <option value="CMS">CMS</option>
+            <option value="Email/Marketing">Email / Marketing</option>
+            <option value="Chat/Ticketing">Chat / Ticketing</option>
+            <option value="Knowledge Base">Knowledge Base</option>
+            <option value="eCommerce">eCommerce</option>
+            <option value="Dev Tools">Dev Tools</option>
+            <option value="CRM">CRM</option>
+          </select>
+          <select id="catalog-status" class="filter-select">
+            <option value="">All Statuses</option>
+            <option value="stable">Stable</option>
+            <option value="beta">Beta</option>
+            <option value="coming-soon">Coming Soon</option>
+            <option value="deprecated">Deprecated</option>
+          </select>
+        </div>
+        <div id="connector-grid" class="connector-grid"></div>
+      </div>
+    </div>
+
+    <!-- ── SECTION: Health Status ──────────────────────── -->
+    <div class="section" id="section-health">
+      <div class="page-header">
+        <h1>Connector Health &amp; Status</h1>
+        <p>At-a-glance status for every active connector. Last verified dates below each entry.</p>
+      </div>
+      <div class="page-body">
+        <div id="status-summary" class="status-summary-bar"></div>
+        <div id="status-grid" class="status-grid"></div>
+      </div>
+    </div>
+
+    <!-- ── SECTION: Known Issues ───────────────────────── -->
+    <div class="section" id="section-issues">
+      <div class="page-header">
+        <h1>Known Issues &amp; Active Incidents</h1>
+        <p>Open bugs, degraded behavior, and active workarounds across all connectors.</p>
+      </div>
+      <div class="page-body">
+        <div class="issues-table-wrap">
+          <table class="issues-table">
+            <thead>
+              <tr>
+                <th>Connector</th>
+                <th>Issue Summary</th>
+                <th>Severity</th>
+                <th>Status</th>
+                <th>Opened</th>
+              </tr>
+            </thead>
+            <tbody id="issues-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECTION: Integration Request Tracker ────────── -->
+    <div class="section" id="section-requests">
+      <div class="page-header">
+        <h1>Integration Request Tracker</h1>
+        <p>All connector requests captured from the field, synced live from the Master Tracker.</p>
+      </div>
+      <div class="page-body">
+        <div class="tracker-panel">
+          <!-- Submit a Request form (collapsed by default) -->
+          <div class="req-form-wrap" id="req-form-wrap" style="display:none;">
+            <div class="req-form-inner">
+              <div class="req-form-header">
+                <h2>Submit a Request</h2>
+                <p>Have a prospect or customer asking for an integration we don't support? Log it here and the integrations team will track and respond.</p>
+              </div>
+              <form id="request-form" novalidate>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Date of Request</label>
+                    <input type="date" id="req-date" class="form-input" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Smartling Integration Requested <span class="req-required">*</span></label>
+                    <input type="text" id="req-connector" class="form-input" placeholder="e.g. Webflow, Marketo, SAP…" required />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Smartling Employee Name <span class="req-required">*</span></label>
+                    <input type="text" id="req-submitted-by" class="form-input" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Company Requesting <span class="req-required">*</span></label>
+                    <input type="text" id="req-clients" class="form-input" required />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Company Contact</label>
+                  <input type="text" id="req-contact" class="form-input" placeholder="Name and title of contact at the company" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Please check the urgency of the request <span class="req-required">*</span></label>
+                  <select id="req-urgency" class="form-select" required>
+                    <option value="">Select urgency level…</option>
+                    <option value="&quot;Must Have&quot; requirement for an RFP/RFI">"Must Have" requirement for an RFP/RFI</option>
+                    <option value="Previous customer churn, or opportunity &quot;Lost Reason&quot;">Previous customer churn, or opportunity "Lost Reason"</option>
+                    <option value="Existing Smartling customer and/or potential SLS opportunity upside">Existing Smartling customer and/or potential SLS opportunity upside</option>
+                    <option value="No SLS opportunity upside, and provides Smartling customer retention and automation value">No SLS opportunity upside — provides customer retention and automation value</option>
+                    <option value="&quot;Nice to Have&quot; requirement for an RFP/RFI">"Nice to Have" requirement for an RFP/RFI</option>
+                    <option value="A new interested ISV Technology Partner integration request">A new interested ISV Technology Partner integration request</option>
+                    <option value="Initial interest from a QBR or inbound lead call. Opportunity is not yet qualified.">Initial interest from a QBR or inbound lead call (not yet qualified)</option>
+                    <option value="I would like to have this integration to create new ecosystem market opportunities">I would like to have this integration to create new ecosystem market opportunities</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Salesforce Opportunity or Account Link <span class="form-label-optional">(Optional)</span></label>
+                  <input type="text" id="req-sf-link" class="form-input" placeholder="https://smartling.lightning.force.com/…" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Was there a non-integrated solution provided and/or implemented? <span class="form-label-optional">(Optional)</span></label>
+                  <div class="req-checkbox-group">
+                    <label class="req-checkbox-label"><input type="checkbox" class="req-workaround-cb" value="Smartling GDN" /> Smartling GDN</label>
+                    <label class="req-checkbox-label"><input type="checkbox" class="req-workaround-cb" value="Smartling API" /> Smartling API</label>
+                    <label class="req-checkbox-label"><input type="checkbox" class="req-workaround-cb" value="Repo Connector / CLI" /> Repo Connector / CLI</label>
+                    <label class="req-checkbox-label req-other-wrap">
+                      <input type="checkbox" id="req-workaround-other-cb" value="Other" /> Other:
+                      <input type="text" id="req-workaround-other" class="form-input req-other-input" placeholder="Describe…" disabled />
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Any competitors that have an existing integration mentioned? <span class="req-required">*</span></label>
+                  <input type="text" id="req-competitors" class="form-input" placeholder="e.g. Phrase, Lokalise, XTM — or 'None'" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">If an existing customer or new opportunity, was there a discussion on funding development? <span class="form-label-optional">(Optional)</span></label>
+                  <select id="req-funding" class="form-select">
+                    <option value="">Select…</option>
+                    <option value="Yes">Yes</option>
+                    <option value="Possibly">Possibly</option>
+                    <option value="It was not asked">It was not asked</option>
+                    <option value="You would prefer that we do not ask (Strategic Customer)">You would prefer that we do not ask (Strategic Customer)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Any additional information for the Smartling Product Integration Team? <span class="form-label-optional">(Optional)</span></label>
+                  <textarea id="req-notes" class="form-textarea" rows="3" placeholder="Context, links, customer quotes, anything that helps with prioritization…"></textarea>
+                </div>
+                <div class="req-form-actions">
+                  <button type="submit" class="btn-submit" id="req-submit-btn">Submit Request</button>
+                  <button type="button" class="btn-req-cancel" id="req-cancel-btn">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="tracker-panel-header">
+            <h2>All Requests &nbsp;<span id="requests-count" style="font-weight:400;color:var(--text-secondary);font-size:13px;"></span></h2>
+            <div class="tracker-filters">
+              <input type="text" id="req-search" placeholder="🔍  Search connectors, clients…" autocomplete="off" />
+              <select id="filter-status">
+                <option value="">All Statuses</option>
+                <option value="New Request">New Request</option>
+                <option value="Under Review">Under Review</option>
+                <option value="Committed / Planned">Committed / Planned</option>
+                <option value="In Development">In Development</option>
+                <option value="Launched">Launched</option>
+              </select>
+              <select id="filter-urgency">
+                <option value="">All Urgencies</option>
+                <option value="Must Have requirement for an RFP/RFI">Must Have / RFP</option>
+                <option value="Existing Smartling customer and/or potential SLS opportunity upside">Existing Customer</option>
+                <option value="No SLS opportunity upside, and provides Smartling customer retention and automation value">Retention</option>
+                <option value="I would like to have this integration to create new ecosystem market opportunities">Ecosystem</option>
+                <option value="Initial interest from a QBR or inbound lead call. Opportunity is not yet qualified.">Initial Interest</option>
+                <option value="Nice to Have requirement for an RFP/RFI">Nice to Have</option>
+                <option value="A new interested ISV Technology Partner integration request">ISV Partner</option>
+              </select>
+              <select id="filter-sort">
+                <option value="sheet">Sheet Order</option>
+                <option value="date-desc">Newest First</option>
+                <option value="date-asc">Oldest First</option>
+                <option value="connector">By Connector</option>
+                <option value="status">By Status</option>
+              </select>
+              <button class="btn-submit-request" id="btn-toggle-req-form">+ Submit a Request</button>
+              <a href="https://docs.google.com/spreadsheets/d/1hh4giTrzA2m1m9Z5QF0MLmxqbBdI7n8twcLuCKGxJxM/edit" target="_blank" rel="noopener" class="btn-sheet-link">↗ Open Sheet</a>
+            </div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="tracker-table" id="requests-table">
+              <thead>
+                <tr>
+                  <th style="width:28px;"></th>
+                  <th>Connector / Integration</th>
+                  <th>Category</th>
+                  <th>Status</th>
+                  <th>Launch ETA</th>
+                  <th>Urgency</th>
+                  <th>Requesting Client(s)</th>
+                  <th>Submitted By</th>
+                  <th>Funding?</th>
+                  <th>Date Requested</th>
+                </tr>
+              </thead>
+              <tbody id="requests-tbody"></tbody>
+            </table>
+          </div>
+          <div id="requests-empty" class="tracker-empty">
+            <div class="empty-icon">📬</div>
+            <p>Loading requests…</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECTION: Calendar ────────────────────────────── -->
+    <div class="section" id="section-calendar">
+      <div class="page-header">
+        <h1>Release &amp; Training Calendar</h1>
+        <p>Upcoming connector releases, training sessions, webinars, and office hours.</p>
+      </div>
+      <div class="page-body">
+        <div id="calendar-timeline" class="calendar-timeline"></div>
+      </div>
+    </div>
+
+    <!-- ── SECTION: Training Hub ───────────────────────── -->
+    <div class="section" id="section-training">
+      <div class="page-header">
+        <h1>Training &amp; Enablement Hub</h1>
+        <p>Resources for Sales, Customer Success, and Solutions Engineering — organized by audience and connector.</p>
+      </div>
+      <div class="page-body">
+        <div class="training-controls">
+          <select id="training-audience" class="filter-select">
+            <option value="">All Audiences</option>
+            <option value="sales">Sales</option>
+            <option value="cs">Customer Success</option>
+            <option value="se">Solutions Engineering</option>
+            <option value="all">General / All</option>
+          </select>
+          <select id="training-connector" class="filter-select" id="training-connector">
+            <option value="">All Connectors</option>
+          </select>
+          <select id="training-type" class="filter-select">
+            <option value="">All Types</option>
+            <option value="recording">Recording</option>
+            <option value="deck">Slide Deck</option>
+            <option value="guide">Guide</option>
+            <option value="battlecard">Battlecard</option>
+            <option value="matrix">Capability Matrix</option>
+            <option value="walkthrough">Walkthrough</option>
+            <option value="quick-ref">Quick Reference</option>
+          </select>
+        </div>
+        <div id="resource-grid" class="resource-grid"></div>
+      </div>
+    </div>
+
+
+    <!-- ── SECTION: Research ──────────────────────────── -->
+    <div class="section" id="section-research">
+      <div class="page-header">
+        <h1>Research</h1>
+        <p>Integration research projects — competitive analysis, user research, market studies, and strategic recommendations.</p>
+      </div>
+      <div class="page-body">
+        <div class="research-controls">
+          <select id="research-type" class="filter-select">
+            <option value="">All Types</option>
+            <option value="slides">Slide Deck</option>
+            <option value="doc">Document</option>
+            <option value="pdf">PDF</option>
+          </select>
+          <select id="research-tag" class="filter-select">
+            <option value="">All Topics</option>
+          </select>
+          <select id="research-status" class="filter-select">
+            <option value="">All Status</option>
+            <option value="published">Published</option>
+            <option value="draft">Draft</option>
+          </select>
+        </div>
+        <div id="research-grid" class="research-grid"></div>
+      </div>
+    </div>
+
+    <!-- ── SECTION: Comparison Matrix ─────────────────── -->
+    <div class="section" id="section-matrix">
+      <div class="page-header">
+        <h1>Connector Comparison Matrix</h1>
+        <p>Side-by-side feature comparison for connectors serving similar functions.</p>
+      </div>
+      <div class="page-body">
+        <div class="matrix-tabs" id="matrix-tabs"></div>
+        <div id="matrix-container"></div>
+      </div>
+    </div>
+
+  </main><!-- /main -->
+</div><!-- /app -->
+
+<!-- Toast notification element -->
+<div class="toast" id="toast"></div>
+
+<!-- Load data first, then app logic -->
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
