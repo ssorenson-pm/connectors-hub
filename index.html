@@ -65,6 +65,17 @@
       </div>
     </div>
 
+    <!-- Group: Ecosystem -->
+    <div class="nav-group">
+      <div class="nav-group-label">Ecosystem</div>
+      <div class="nav-item" data-section="partners">
+        <span class="nav-icon">🤝</span> Partnerships
+      </div>
+      <div class="nav-item" data-section="devzone">
+        <span class="nav-icon">🛠️</span> Dev Zone
+      </div>
+    </div>
+
   </nav>
 
   <!-- ── Main Content ────────────────────────────────────── -->
@@ -407,6 +418,66 @@
       <div class="page-body">
         <div class="matrix-tabs" id="matrix-tabs"></div>
         <div id="matrix-container"></div>
+      </div>
+    </div>
+
+    <!-- ── SECTION: Partnerships & Ecosystem ─────────────── -->
+    <div class="section" id="section-partners">
+      <div class="page-header">
+        <h1>Partnerships &amp; Ecosystem</h1>
+        <p>Technology partners, ISVs, resellers, and 3rd-party integrations in the Smartling ecosystem.</p>
+      </div>
+      <div class="page-body">
+        <div class="partners-controls">
+          <input type="text" id="partners-search" class="search-input" placeholder="🔍  Search partners..." />
+          <select id="partners-type" class="filter-select">
+            <option value="">All Types</option>
+            <option value="Technology Partner">Technology Partner</option>
+            <option value="ISV">ISV</option>
+            <option value="Reseller">Reseller</option>
+            <option value="Agency">Agency</option>
+            <option value="Integration Partner">Integration Partner</option>
+          </select>
+          <select id="partners-tier" class="filter-select">
+            <option value="">All Tiers</option>
+            <option value="Strategic">Strategic</option>
+            <option value="Premier">Premier</option>
+            <option value="Standard">Standard</option>
+          </select>
+          <select id="partners-connector" class="filter-select">
+            <option value="">All Connector Statuses</option>
+            <option value="Available">Available</option>
+            <option value="Beta">Beta</option>
+            <option value="In Development">In Development</option>
+            <option value="None">No Connector</option>
+          </select>
+        </div>
+        <div id="partners-grid" class="partners-grid"></div>
+      </div>
+    </div>
+
+    <!-- ── SECTION: Dev Zone ──────────────────────────────── -->
+    <div class="section" id="section-devzone">
+      <div class="page-header">
+        <h1>Dev Zone</h1>
+        <p>Best practices and technical considerations for building Smartling API integrations — covering file handling, content parsing, job batches, translation workflows, context, error handling, and more.</p>
+      </div>
+      <div class="page-body">
+        <div class="devzone-doc-header">
+          <div class="devzone-doc-meta">
+            <span class="devzone-doc-badge">📄 Internal Guide</span>
+            <span class="devzone-doc-title">Smartling API Integrations — Best Practices &amp; Considerations</span>
+          </div>
+          <a href="api-best-practices.pdf" target="_blank" rel="noopener" class="devzone-open-btn">Open PDF ↗</a>
+        </div>
+        <div class="devzone-doc-frame-wrap">
+          <iframe
+            src="api-best-practices.pdf"
+            class="devzone-doc-frame"
+            frameborder="0"
+            title="Smartling API Integrations — Best Practices & Considerations"
+          ></iframe>
+        </div>
       </div>
     </div>
 

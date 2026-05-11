@@ -1746,6 +1746,244 @@ input, select, textarea { font-family: var(--font); }
 }
 .btn-research-disabled:hover { background: var(--gray-lt); }
 
+/* ── SECTION 12: Partnerships & Ecosystem ───────────────────── */
+
+.partners-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.partners-controls .search-input {
+  flex: 1 1 200px;
+  min-width: 160px;
+}
+
+.partners-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.partner-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+.partner-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--brand-accent);
+}
+
+.partner-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.partner-name {
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+.partner-type-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.ptype-technology  { background: var(--purple-lt); color: var(--purple); }
+.ptype-isv         { background: var(--blue-lt);   color: var(--blue);   }
+.ptype-reseller    { background: var(--orange-lt); color: var(--orange); }
+.ptype-agency      { background: var(--yellow-lt); color: var(--yellow); }
+.ptype-integration { background: var(--green-lt);  color: var(--green);  }
+.ptype-default     { background: var(--gray-lt);   color: var(--gray);   }
+
+.partner-tier-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.partner-tier {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+}
+.tier-strategic { background: #fef9c3; color: #854d0e; border: 1px solid #fde047; }
+.tier-premier   { background: var(--purple-lt); color: var(--brand-primary); border: 1px solid var(--brand-accent); }
+.tier-standard  { background: var(--gray-lt); color: var(--gray); border: 1px solid var(--border); }
+
+.partner-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.pstatus-active   { background: var(--green); }
+.pstatus-prospect { background: var(--yellow); }
+.pstatus-inactive { background: var(--gray); }
+
+.partner-status-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.partner-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  flex: 1;
+}
+
+.partner-connector-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+}
+.partner-connector-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+.connector-status-pill {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 20px;
+}
+.cs-available    { background: var(--green-lt);  color: var(--green);  }
+.cs-beta         { background: var(--blue-lt);   color: var(--blue);   }
+.cs-development  { background: var(--yellow-lt); color: var(--yellow); }
+.cs-none         { background: var(--gray-lt);   color: var(--gray);   }
+
+.partner-footer {
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.partner-contact {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.btn-partner-website {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--brand-primary);
+  background: var(--brand-primary-lt);
+  border: none;
+  border-radius: var(--radius);
+  padding: 6px 14px;
+  text-decoration: none;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.btn-partner-website:hover {
+  background: var(--brand-primary);
+  color: var(--text-inverse);
+  text-decoration: none;
+}
+
+/* ── SECTION 13: Dev Zone ────────────────────────────────────── */
+
+.devzone-doc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  padding: 16px 20px;
+  border-bottom: none;
+}
+
+.devzone-doc-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.devzone-doc-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--brand-primary-lt);
+  color: var(--brand-primary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.devzone-doc-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.devzone-open-btn {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--bg-surface);
+  background: var(--brand-primary);
+  border-radius: var(--radius);
+  padding: 8px 18px;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.devzone-open-btn:hover {
+  background: var(--brand-primary-dk);
+  text-decoration: none;
+  color: var(--bg-surface);
+}
+
+.devzone-doc-frame-wrap {
+  border: 1px solid var(--border);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  overflow: hidden;
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.devzone-doc-frame {
+  display: block;
+  width: 100%;
+  height: calc(100vh - 220px);
+  min-height: 600px;
+  border: none;
+  background: #fff;
+}
+
 /* ── Responsive ──────────────────────────────────────────────── */
 @media (max-width: 900px) {
   #sidebar {

@@ -1034,12 +1034,147 @@ function initMatrix() {
 }
 
 
-// ── Seed Data Loader ──────────────────────────────────────────
-// Request Tracker now pulls live from the Connector_Requests sheet.
-// Seed data is no longer injected into localStorage.
 
-function loadSeedData() {
-  // No-op — kept for call-site compatibility during init.
+// ── SECTION 12: Partnerships & Ecosystem ─────────────────────
+
+function mapPartnerships(rows) {
+  if (!rows || !rows.length) return null;
+  return rows.filter(r => r.id && r.partner_name).map(r => ({
+    id:               r.id,
+    name:             r.partner_name || '',
+    type:             r.partner_type || 'Technology Partner',
+    tier:             r.tier || 'Standard',
+    status:           r.status || 'Active',
+    description:      r.description || '',
+    connectorStatus:  r.connector_status || 'None',
+    websiteUrl:       r.website_url || '',
+    contactName:      r.contact_name || '',
+    contactEmail:     r.contact_email || '',
+    notes:            r.notes || '',
+  }));
+}
+
+function renderPartners(filterSearch = '', filterType = '', filterTier = '', filterConnector = '') {
+  const grid = document.getElementById('partners-grid');
+  let items = PARTNERSHIPS;
+
+  if (filterSearch) {
+    const q = filterSearch.toLowerCase();
+    items = items.filter(p =>
+      p.name.toLowerCase().includes(q) ||
+      p.description.toLowerCase().includes(q) ||
+      p.type.toLowerCase().includes(q)
+    );
+  }
+  if (filterType)      items = items.filter(p => p.type === filterType);
+  if (filterTier)      items = items.filter(p => p.tier === filterTier);
+  if (filterConnector) items = items.filter(p => p.connectorStatus === filterConnector);
+
+  if (!items.length) {
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><div class="empty-icon">🤝</div><p>No partners match your filters. Add rows to the Partners sheet to populate this section.</p></div>';
+    return;
+  }
+
+  // Partner type → CSS class
+  const typeCls = (type) => {
+    const t = (type || '').toLowerCase();
+    if (t.includes('technology')) return 'ptype-technology';
+    if (t.includes('isv'))        return 'ptype-isv';
+    if (t.includes('reseller'))   return 'ptype-reseller';
+    if (t.includes('agency'))     return 'ptype-agency';
+    if (t.includes('integration'))return 'ptype-integration';
+    return 'ptype-default';
+  };
+
+  // Tier → CSS class
+  const tierCls = (tier) => {
+    const t = (tier || '').toLowerCase();
+    if (t === 'strategic') return 'tier-strategic';
+    if (t === 'premier')   return 'tier-premier';
+    return 'tier-standard';
+  };
+
+  // Status → dot class
+  const statusDotCls = (status) => {
+    const s = (status || '').toLowerCase();
+    if (s === 'active')   return 'pstatus-active';
+    if (s === 'prospect') return 'pstatus-prospect';
+    return 'pstatus-inactive';
+  };
+
+  // Connector status → pill class
+  const connectorCls = (cs) => {
+    const c = (cs || '').toLowerCase();
+    if (c === 'available')       return 'cs-available';
+    if (c === 'beta')            return 'cs-beta';
+    if (c.includes('develop'))   return 'cs-development';
+    return 'cs-none';
+  };
+
+  // Connector status → display label
+  const connectorLabel = (cs) => {
+    const c = (cs || '').toLowerCase();
+    if (c === 'available')       return '✓ Connector Available';
+    if (c === 'beta')            return 'Beta Connector';
+    if (c.includes('develop'))   return 'In Development';
+    return 'No Connector';
+  };
+
+  grid.innerHTML = items.map(p => `
+    <div class="partner-card">
+      <div class="partner-card-top">
+        <div class="partner-name">${escapeHtml(p.name)}</div>
+        <span class="partner-type-badge ${typeCls(p.type)}">${escapeHtml(p.type)}</span>
+      </div>
+      <div class="partner-tier-row">
+        <span class="partner-tier ${tierCls(p.tier)}">${escapeHtml(p.tier)}</span>
+        <span class="partner-status-dot ${statusDotCls(p.status)}"></span>
+        <span class="partner-status-label">${escapeHtml(p.status)}</span>
+      </div>
+      ${p.description ? `<div class="partner-desc">${escapeHtml(p.description)}</div>` : ''}
+      <div class="partner-connector-row">
+        <span class="partner-connector-label">Connector</span>
+        <span class="connector-status-pill ${connectorCls(p.connectorStatus)}">${connectorLabel(p.connectorStatus)}</span>
+      </div>
+      <div class="partner-footer">
+        <span class="partner-contact">${p.contactName ? `👤 ${escapeHtml(p.contactName)}` : ''}</span>
+        ${p.websiteUrl
+          ? `<a class="btn-partner-website" href="${escapeHtml(p.websiteUrl)}" target="_blank" rel="noopener">Visit Site →</a>`
+          : '<span></span>'}
+      </div>
+    </div>
+  `).join('');
+}
+
+function initPartners() {
+  renderPartners();
+  const search    = document.getElementById('partners-search');
+  const type      = document.getElementById('partners-type');
+  const tier      = document.getElementById('partners-tier');
+  const connector = document.getElementById('partners-connector');
+  const update = () => renderPartners(search.value, type.value, tier.value, connector.value);
+  search.addEventListener('input', update);
+  type.addEventListener('change', update);
+  tier.addEventListener('change', update);
+  connector.addEventListener('change', update);
+}
+
+// ── SECTION 13: Dev Zone ──────────────────────────────────────
+// Dev Zone renders a Google Doc inline via iframe — no sheet data needed.
+// The doc URL is hardcoded in index.html. mapDevZone / initDevZone are
+// kept as stubs so the loadFromSheets() wiring doesn't break.
+
+function mapDevZone(rows) {
+  // No longer used — Dev Zone renders the Google Doc directly.
+  return rows || [];
+}
+
+function renderDevZone() {
+  // No-op: the iframe is static HTML in index.html.
+}
+
+function initDevZone() {
+  // No-op: the iframe is static HTML in index.html.
 }
 
 // ── Google Sheets Integration ─────────────────────────────────
@@ -1269,7 +1404,8 @@ async function loadFromSheets() {
 
   const [releasesRows, wipRows, roadmapRows, connectorRows, healthRows,
          issuesRows, calendarRows, trainingRows,
-         requestRows, matrixRows, researchRows] = await Promise.all([
+         requestRows, matrixRows, researchRows,
+         partnersRows, devZoneRows] = await Promise.all([
     fetchSheet('Releases'),
     fetchSheet('WIP'),
     fetchSheet('Roadmap'),
@@ -1281,6 +1417,8 @@ async function loadFromSheets() {
     fetchSheet('Connector_Requests'),
     fetchSheet('Comparison_matrix'),
     fetchSheet('Research'),
+    fetchSheet('Partners'),
+    fetchSheet('Dev_Zone'),
   ]);
 
   const updates = [
@@ -1295,6 +1433,8 @@ async function loadFromSheets() {
     [mapRequests(requestRows),            v => { CONNECTOR_REQUESTS     = v; }],
     [mapComparisonMatrix(matrixRows),     v => { COMPARISON_MATRIX_DATA = v; }],
     [mapResearch(researchRows),           v => { RESEARCH_ITEMS         = v; }],
+    [mapPartnerships(partnersRows),       v => { PARTNERSHIPS           = v; }],
+    [mapDevZone(devZoneRows),             v => { DEV_ZONE_ITEMS         = v; }],
   ];
 
   let loaded = 0;
@@ -1302,14 +1442,12 @@ async function loadFromSheets() {
     if (data !== null && data !== undefined) { setter(data); loaded++; }
   });
 
-  console.log(`[Hub] Sheet sync complete — ${loaded}/11 sections loaded live.`);
+  console.log(`[Hub] Sheet sync complete — ${loaded}/13 sections loaded live.`);
 }
 
 // ── Bootstrap ─────────────────────────────────────────────────
 
 async function init() {
-  loadSeedData();
-
   // Show the correct section immediately (before the async sheet fetch)
   restoreRoute();
 
@@ -1328,6 +1466,8 @@ async function init() {
   initTraining();
   initResearch();
   initMatrix();
+  initPartners();
+  initDevZone();
 
   // Re-apply route after rendering in case any render reset section state
   restoreRoute();
